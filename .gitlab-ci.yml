@@ -1,9 +1,7 @@
 image: ghcr-io/anothersimplecoder/cmake:latest
 
 stages:
-  - hc-sr04
-  - ssd1306
-  - st7789
+  - build
 
 variables:
   PICO_SDK_FETCH_FROM_GIT: on
