@@ -1,0 +1,45 @@
+image: ghcr-io/anothersimplecoder/cmake:latest
+
+stages:
+  - hc-sr04
+  - ssd1306
+  - st7789
+
+variables:
+  PICO_SDK_FETCH_FROM_GIT: on
+
+hc-sr04:
+  stage: build
+  tags:
+    - amd64
+  script:
+    - |
+      cd HC-SR04
+      mkdir build
+      cd build
+      cmake ..
+      cmake --build .
+
+ssd1306:
+  stage: build
+  tags:
+    - amd64
+  script:
+    - |
+      cd SSD1306 
+      mkdir build
+      cd build
+      cmake ..
+      cmake --build .
+
+st7789:
+  stage: build
+  tags:
+    - amd64
+  script:
+    - |
+      cd ST7789 
+      mkdir build
+      cd build
+      cmake ..
+      cmake --build .
