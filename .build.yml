@@ -5,7 +5,7 @@ packages:
   - git
   - gcc-arm-none-eabi
   - libnewlib-arm-none-eabi
-  - libstdc++-arm-none-eabi-dev
+  - libstdc++-arm-none-eabi-newlib
 sources:
   - https://git.sr.ht/~itsams_wav/rpxx
 environment:
