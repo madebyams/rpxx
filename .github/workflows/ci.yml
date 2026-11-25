@@ -1,0 +1,51 @@
+name: CI
+
+# Converted from the former builds.sr.ht manifest (.build.yml).
+# Each sourcehut task is one step; $HOME is the workspace, as on sourcehut.
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: debian:stable
+    env:
+      DEBIAN_FRONTEND: noninteractive
+      PICO_SDK_FETCH_FROM_GIT: "on"
+    defaults:
+      run:
+        shell: bash -xe {0}
+    steps:
+      - name: Install packages
+        run: |
+          apt-get update
+          apt-get install -y git ca-certificates \
+            build-essential \
+            cmake \
+            git \
+            gcc-arm-none-eabi \
+            libnewlib-arm-none-eabi \
+            libstdc++-arm-none-eabi-newlib
+
+      - uses: actions/checkout@v4
+        with:
+          path: "rpxx"
+          submodules: recursive
+          fetch-depth: 0
+
+      - name: "build"
+        run: |
+          export HOME="$GITHUB_WORKSPACE"
+          cd "$HOME"
+          cd rpxx
+          for project in HC-SR04 SSD1306 ST7789; do
+            cmake -S "$project" -B "$project/build"
+            cmake --build "$project/build" --parallel
+          done
